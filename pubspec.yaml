@@ -1,0 +1,61 @@
+name: tuneflow
+description: TuneFlow - music streaming client built with Flutter, Riverpod and Dio.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.0
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management (docs section 9): Riverpod, no BuildContext-dependent state.
+  flutter_riverpod: ^2.6.1
+
+  # Routing (docs section 11): declarative, deep-link friendly, guard support.
+  go_router: ^14.6.2
+
+  # Networking (docs section 10): interceptors for auth refresh, retry and logging.
+  dio: ^5.7.0
+
+  # Persistence (docs section 10): tokens in the keychain/keystore, prefs in SharedPreferences.
+  # 11.x, because `file_picker` 13 resolves `win32` 6.x, which the 9.x Windows implementation
+  # cannot use. 11.x also drops the `encryptedSharedPreferences` option (the Jetpack Security
+  # backend is gone; the default is AES-GCM with RSA-OAEP key wrapping) - see TokenStorage.
+  flutter_secure_storage: ^11.2.0
+  shared_preferences: ^2.3.3
+
+  # Audio engine behind the cross-feature player service (docs sections 20-21).
+  just_audio: ^0.9.42
+
+  # Artwork caching so the mini-player and lists do not re-download images.
+  cached_network_image: ^3.4.1
+
+  intl: ^0.19.0
+  cupertino_icons: ^1.0.8
+  # 13.x is federated: the Android half is `android_file_picker`, which reads AGP's
+  # `android.builtInKotlin` flag before deciding whether to apply the built-in Kotlin plugin.
+  # 11.0.3 decided from the AGP version alone and skipped it on AGP 9+, so with the Flutter
+  # template's `android.builtInKotlin=false` its Kotlin was never compiled and the Android build
+  # died in GeneratedPluginRegistrant with "cannot find symbol: class FilePickerPlugin".
+  # The federated file_picker pulls `windows_file_picker`, which needs win32 ^6.3.0, and that is
+  # what forces flutter_secure_storage to 11.x below (its 9.x Windows implementation pins win32 5).
+  file_picker: ^13.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  mocktail: ^1.0.4
+  flutter_launcher_icons: ^0.14.4
+
+flutter:
+  uses-material-design: true
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  min_sdk_android: 21
